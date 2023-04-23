@@ -19,6 +19,7 @@
   justify-content: center;
   align-content: center;
   gap: 10px;
+  position: relative;
 }
 .heading {
   background-color: blue;
@@ -26,6 +27,16 @@
   margin-top: 10px;
   margin-bottom: 20px;
   text-align: center;
+}
+.winner {
+  background-color: blue;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 30px;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 .box {
   background-color: white;
@@ -35,6 +46,7 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  position: relative;
 }
 
 .restart-btn-container {
@@ -70,4 +82,53 @@
 /* Placing it at last cause it should overwrite the elements that may have other display properties like flex,grid,etc */
 .hide {
   visibility: hidden;
+}
+.column-strike {
+  display: flex;
+  flex-direction: column;
+}
+.column-strike::before {
+  content: "";
+  background-color: red;
+  color: white;
+  border: 2px solid red;
+  width: var(--colWidth, 0);
+  opacity: var(--colOpacity, 0);
+  z-index: 1;
+  position: absolute;
+  top: 9px;
+  left: 50px;
+  transform: rotate(90deg);
+  transition: width 1s ease-in-out;
+  transform-origin: left;
+  background-color: red;
+}
+.row-strike::before {
+  content: "";
+  background-color: red;
+  color: white;
+  border: 2px solid red;
+  width: var(--rowWidth, 0);
+  opacity: var(--rowOpacity, 0);
+  z-index: 1;
+  position: absolute;
+  left: 10px;
+  transition: width 1s ease-in-out;
+  background-color: red;
+}
+.diagonal-strike::before {
+  content: "";
+  background-color: red;
+  color: white;
+  border: 2px solid red;
+  width: var(--diaWidth, 0);
+  opacity: var(--diaOpacity, 0);
+  z-index: 1;
+  position: absolute;
+  transform: var(--diaAngle, rotate(45deg));
+  left: var(--diaLeft, 2px);
+  top: 0px;
+  transition: width 1s ease-in-out;
+  background-color: red;
+  transform-origin: left;
 }
