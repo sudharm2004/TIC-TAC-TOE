@@ -8,7 +8,6 @@ let cellDimension = [
 document.addEventListener("DOMContentLoaded", (documentEvent) => {
   //getting parent div of restart button and making its display hide
   const restartBtnDiv = document.querySelector(".restart-btn-container");
-  console.log(restartBtnDiv);
   restartBtnDiv.classList.add("hide");
   //getting the all boxes
   const boxes = document.getElementsByClassName("box");
@@ -29,6 +28,7 @@ document.addEventListener("DOMContentLoaded", (documentEvent) => {
       cellDimension[x][y] = "X";
       sign = "x";
     }
+    //Displaying The restart button once user starts playing(That is clicks first time)
     restartBtnDiv.classList.remove("hide");
 
     checkWinningFinalCondition();
@@ -41,6 +41,34 @@ document.addEventListener("DOMContentLoaded", (documentEvent) => {
     //for each element
     boxes[index].addEventListener("click", handleBoxClick);
   }
+
+  //Code for restarting the game
+  const restartBtn = document.getElementById("restart-btn");
+
+  //function to restart the game
+  const restartGame = () => {
+    for (let index = 0; index < boxes.length; index++) {
+      console.log(boxes[index]);
+      boxes[index].classList.remove("o-sign");
+      boxes[index].classList.remove("x-sign");
+      boxes[index].classList.remove("column-strike");
+      boxes[index].classList.remove("row-strike");
+      boxes[index].classList.remove("diagonal-strike");
+      boxes[index].addEventListener("click", handleBoxClick);
+      boxes[index].style = "";
+      boxes[index].style.cursor = "pointer";
+      const winner = document.querySelector(".winner");
+      // winner.innerHTML = "";
+      winner.style.opacity = 0;
+    }
+    restartBtnDiv.classList.add("hide");
+    cellDimension = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null],
+    ];
+  };
+  restartBtn.addEventListener("click", restartGame);
 
   //Code for winning the game
   const checkWinningFinalCondition = () => {
@@ -95,32 +123,6 @@ document.addEventListener("DOMContentLoaded", (documentEvent) => {
       }
     }
   };
-
-  //Code for restarting the game
-  const restartBtn = document.getElementById("restart-btn");
-
-  const restartGame = () => {
-    for (let index = 0; index < boxes.length; index++) {
-      boxes[index].classList.remove("o-sign");
-      boxes[index].classList.remove("x-sign");
-      boxes[index].classList.remove("column-strike");
-      boxes[index].classList.remove("row-strike");
-      boxes[index].classList.remove("diagonal-strike");
-      boxes[index].addEventListener("click", handleBoxClick);
-      boxes[index].style.cursor = "pointer";
-      const winner = document.querySelector(".winner");
-      // winner.innerHTML = "";
-      winner.style.opacity = 0;
-    }
-    restartBtnDiv.classList.add("hide");
-    cellDimension = [
-      [null, null, null],
-      [null, null, null],
-      [null, null, null],
-    ];
-  };
-
-  restartBtn.addEventListener("click", restartGame);
 
   //code for finishing the game
   const finishGame = (track, dim) => {
@@ -192,6 +194,7 @@ document.addEventListener("DOMContentLoaded", (documentEvent) => {
         }, 500);
       }
     }
+    //Code to print who won the game
     if (cellDimension[dim[0]][dim[1]] == "X") {
       const winner = document.querySelector(".winner");
       winner.innerHTML = "X Wins!!(Restart Game)";
@@ -201,6 +204,7 @@ document.addEventListener("DOMContentLoaded", (documentEvent) => {
       winner.innerHTML = "O Wins!!(Restart Game)";
       winner.style.opacity = 1;
     }
+    //Code to remove all eventlisteners and make the boxes unclickable
     for (let index = 0; index < boxes.length; index++) {
       boxes[index].removeEventListener("click", handleBoxClick);
       boxes[index].style.cursor = "not-allowed";
